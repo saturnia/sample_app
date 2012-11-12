@@ -1,0 +1,15 @@
+Eventuella fixar till problem
+
+/* PSQL KRÅNGLAR? */
+
+psql: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+
+/* MÖJLIGT LÖSNING */
+
+Kan behhöva starta om psql servern manuellt:
+
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+
+------------------------------------------------------
