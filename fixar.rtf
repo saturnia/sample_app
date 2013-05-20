@@ -12,6 +12,32 @@ Kan behhöva starta om psql servern manuellt:
 
 pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
 
+/* PSQL FORTSÄTTER KRÅNGLA */
+
+pg_ctl: another server might be running; trying to start server anyway
+server starting
+
+/* MÖJLIG LÖSNING */
+
+$ pg_resetxlog /usr/local/var/postgres
+pg_resetxlog: lock file "/usr/local/var/postgres/postmaster.pid" exists
+Is a server running?  If not, delete the lock file and try again.
+$ rm /usr/local/var/postgres/postmaster.pid
+$ pg_resetxlog /usr/local/var/postgres
+The database server was not shut down cleanly.
+Resetting the transaction log might cause data to be lost.
+If you want to proceed anyway, use -f to force reset.
+$ pg_resetxlog -f /usr/local/var/postgres
+Transaction log reset
+
+SEDAN STARTA MED VANLIGA KOMMANDOT I LÖSNINGEN OVAN
+
+It's a PATH issue. Mac OSX Lion includes Postgresql in the system now. If you do a which psql you'll likely see usr/bin/psql instead of usr/local/bin/psql which is HomeBrew's correct one. If you run brew doctor you should get a message stating that you need to add usr/local/bin to the head of your PATH env variable.
+
+Editing your .bash_profile or .profile, or whichever shell you're using and adding: export PATH=/usr/local/bin:$PATH
+
+as the first export for the PATH then either quit you shell session or source your file with source ~/.bash_profile and it should now be OK again.
+
 ------------------------------------------------------
 
 /* HEROKU KRÅNGLAR */
